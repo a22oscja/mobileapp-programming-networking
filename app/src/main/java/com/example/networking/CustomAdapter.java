@@ -26,7 +26,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-        holder.name.setText(mountains.get(position).getName());
+        Mountain m = mountains.get(position);
+        holder.name.setText(m.getName());
     }
 
     @Override
@@ -36,7 +37,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
     public class CustomViewHolder extends RecyclerView.ViewHolder{
 
-        TextView name;
+        public TextView name;
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);

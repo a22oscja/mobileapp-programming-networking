@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
@@ -19,13 +20,17 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
     private final String JSON_FILE = "mountains.json";
     Gson gson = new Gson();
     RecyclerView recView;
+    CustomAdapter customAdapter;
+    ArrayList<Mountain> listOfMountains = new ArrayList<Mountain>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recView = findViewById(R.id.recView);
-
+        customAdapter = new CustomAdapter(listOfMountains);
+        recView.setAdapter(customAdapter);
+        recView.setLayoutManager(new LinearLayoutManager(this));
         new JsonFile(this, this).execute(JSON_FILE);
     }
 
@@ -33,9 +38,8 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
     public void onPostExecute(String json)
     {
         Type type = new TypeToken<ArrayList<Mountain>>() {}.getType();
-        ArrayList<Mountain> listOfMountains = gson.fromJson(json, type);
-        CustomAdapter customAdapter = new CustomAdapter(listOfMountains);
-        recView.setAdapter(customAdapter);
+        listOfMountains = gson.fromJson(json, type);
+
         customAdapter.notifyDataSetChanged();
 
         for (Mountain m : listOfMountains){
