@@ -5,6 +5,10 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 @SuppressWarnings("FieldCanBeLocal")
@@ -12,6 +16,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
     private final String JSON_URL = "HTTPS_URL_TO_JSON_DATA_CHANGE_THIS_URL";
     private final String JSON_FILE = "mountains.json";
+    Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +27,13 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
     }
 
     @Override
-    public void onPostExecute(String json) {
+    public void onPostExecute(String json)
+    {
+        Type type = new TypeToken<ArrayList<Mountain>>() {}.getType();
+        ArrayList<Mountain> listOfMountains = gson.fromJson(json, type);
+        for (Mountain m : listOfMountains){
+            Log.d("waow", m.toString());
+        }
         Log.d("MainActivity", json);
     }
 
