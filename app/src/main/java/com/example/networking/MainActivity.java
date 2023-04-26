@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         ArrayList<Mountain> listOfMountains = gson.fromJson(json, type);
         CustomAdapter customAdapter = new CustomAdapter(listOfMountains);
         recView.setAdapter(customAdapter);
+        customAdapter.notifyDataSetChanged();
 
         for (Mountain m : listOfMountains){
             Log.d("waow", m.toString());
