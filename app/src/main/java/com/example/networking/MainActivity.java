@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         customAdapter = new CustomAdapter(listOfMountains);
         recView.setAdapter(customAdapter);
         recView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        new JsonFile(this,this).execute(JSON_FILE);
         new JsonTask(this).execute(JSON_URL);
     }
 
@@ -40,14 +39,8 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
     {
         Type type = new TypeToken<ArrayList<Mountain>>() {}.getType();
         listOfMountains = gson.fromJson(json, type);
-        Log.d("cope", "onPostExecute: "+listOfMountains.size());
         customAdapter.UpdateList(listOfMountains);
         customAdapter.notifyDataSetChanged();
-
-        for (Mountain m : listOfMountains){
-            Log.d("waow", m.toString());
-        }
-        Log.d("MainActivity", json);
     }
 
 }
